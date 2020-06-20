@@ -1,0 +1,79 @@
+<#ftl output_format="HTML">
+<#-- @ftlvariable name="data" type="io.qameta.allure.attachment.http.HttpRequestAttachment" -->
+<div><#if data.method??>${data.method}<#else>GET</#if> to <#if data.url??>${data.url}<#else>Unknown</#if></div>
+
+<#if data.body??>
+<h4>Body</h4>
+<div>
+    <pre class="preformated-text">
+    ${data.body}
+    </pre>
+</div>
+</#if>
+
+<#if (data.headers)?has_content>
+<h4>Headers</h4>
+<div>
+    <#list data.headers as name, value>
+        <div>${name}: ${value}</div>
+    </#list>
+</div>
+</#if>
+
+<#if (data.formParams)?has_content>
+<h4>Form Parameters</h4>
+<div>
+    <#list data.formParams as name, value>
+        <div>${name}: ${value}</div>
+    </#list>
+</div>
+</#if>
+
+<#if (data.pathParams)?has_content>
+<h4>Path Parameters</h4>
+<div>
+    <#list data.pathParams as name, value>
+        <div>${name}: ${value}</div>
+    </#list>
+</div>
+</#if>
+
+<#if (data.queryParams)?has_content>
+<h4>Query Parameters</h4>
+<div>
+    <#list data.queryParams as name, value>
+        <div>${name}: ${value}</div>
+    </#list>
+</div>
+
+</#if>
+<#if (data.multiPart)?has_content>
+<h4>Multipart contents</h4>
+<div>
+    <#list data.multiPart as name, value>
+        <div>
+            <div><strong>${name?counter} ${name}</strong></div>
+            <div> - Mime-type: ${value.getMimeType()}</div>
+            <div> - Content: ${value.getContent()}</div>
+            <div> - File name: ${value.getFileName()}</div>
+        </div>
+    </#list>
+</div>
+
+</#if>
+
+<#if (data.cookies)?has_content>
+<h4>Cookies</h4>
+<div>
+    <#list data.cookies as name, value>
+        <div>${name}: ${value}</div>
+    </#list>
+</div>
+</#if>
+
+<#if data.curl??>
+<h4>Curl</h4>
+<div>
+${data.curl}
+</div>
+</#if>

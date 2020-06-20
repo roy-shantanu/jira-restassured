@@ -145,6 +145,7 @@ gradle-app.setting
 
 # Ignore Allure
 .allure/
+.allure-results/
 
 src/main/resources/local_settings.json
 src/main/resources/users/localhost/

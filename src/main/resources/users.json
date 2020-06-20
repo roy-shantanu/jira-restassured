@@ -1,0 +1,18 @@
+{
+  "admin": {
+    "username" : "roy.713763",
+    "password" : "admin"
+  },
+  "admin2": {
+    "username" : "admin2",
+    "password" : "admin2"
+  },
+  "nonAdmin": {
+    "username" : "nonAdmin",
+    "password" : "nonAdmin"
+  },
+  "nonAdmin2": {
+    "username" : "nonAdmin2",
+    "password" : "nonAdmin2"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "properties": {
+    "session": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "loginInfo": {
+      "type": "object",
+      "properties": {
+        "failedLoginCount": {
+          "type": "integer"
+        },
+        "loginCount": {
+          "type": "integer"
+        },
+        "lastFailedLoginTime": {
+          "type": "string"
+        },
+        "previousLoginTime": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "failedLoginCount",
+        "loginCount",
+        "lastFailedLoginTime",
+        "previousLoginTime"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "session",
+    "loginInfo"
+  ]
+}
