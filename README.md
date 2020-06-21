@@ -33,6 +33,34 @@ How to navigate through the code:
 7. tpl:: see 5.e
 8. users.json -> predefined test users
 
+test/java::
+1. BaseTest -> 
+    1. loads the application.properties file (see test/resources), this file contains the base properties of the application, e.g base url constructs, default project params.
+    2. Builds the base url from properties defined in application.properties file.
+    3. makes the properties available through getApplicationProperties (this is used to retrieve the default project id)
+    4. configures RA with:
+       1. base url, 
+       2. log when request fails
+       3. Gson as object mapper
+       4. don't append "content charset" header automatically if not defined in the request
+       5. Add the allure filter that we defined earlier (see 5.main/java/allure)
+       
+2. Tests contains schema tests, this tests two things
+    1. If the positive path request is working fine.
+    2. If the response as expected schema, this wil thus throw assertion error when
+        1. any name of the param is changed
+        2. the type of the data doesn't match
+        3. if any new param is added
+        4. if any param is missing
+        
+3. Schema tests has its own suite defined in the `@Test` annotation, these tests can be selected by passing run argument -Psuites=schema
+    1. See build.gradle where the argument is queried and test suite xml file is selected
+    2. see test/resource/suites where the suits are defined
+    
+4. In `ProjectCreationTests`, `invalidDataSetProvider` is the data provider for the test projectCreationWithInvalidDataShouldFail
+5. The test case of the assignment is assignmentTestCase under `IssueCreationTests`
+6. Finally, the attachment used in the attachment upload cases is stored in test/resource/attachments
+
 
 
      
