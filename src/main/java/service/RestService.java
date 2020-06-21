@@ -93,6 +93,7 @@ public class RestService extends BaseService {
     public Response getIssuesForProject(User user, String projectKey) {
         return given()
                 .spec(authenticatedUserSpec(user))
+                .urlEncodingEnabled(false)
                 .contentType(JSON)
                 .queryParam("jql=project", projectKey)
                 .when()

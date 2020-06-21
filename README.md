@@ -2,7 +2,8 @@
 
 Notes:
 1. The server version of jira that has been used supports up to API version 2.
-
+2. A default project is created named "default", and key = "DEF"
+3. Default users are created with naming convention "admin1" and "nonAdmin1" and so on (10 of each)
 
 Libraries used:
 1. **Lombok** (reduce boilerplate, particularly used **NOT** to write getters, setters, constructors, builders and so on) - this is one of my favourite libraries. :heart_eyes:
@@ -29,9 +30,10 @@ How to navigate through the code:
     d. The AllureRequestResponseFilter is the custom filter that is made, extending RA's ordered filter.
     e. see main/resources/tpl/custom-http-request.ftl -> this is the attachment UI template. (Allure uses freemarker as its template engine)
     
-6. main/resources/schema -> used in schema tests:: if the response has different / more / less / different data type elements than the one described in these schemas, the test will fail, and will tell what was the difference.
-7. tpl:: see 5.e
-8. users.json -> predefined test users
+6. main/java/customassertions :: see point 7 of test/java at the end about custom assertions.
+7. main/resources/schema -> used in schema tests:: if the response has different / more / less / different data type elements than the one described in these schemas, the test will fail, and will tell what was the difference.
+8. tpl:: see 5.e
+9. users.json -> predefined test users
 
 test/java::
 1. BaseTest -> 
@@ -59,7 +61,10 @@ test/java::
     
 4. In `ProjectCreationTests`, `invalidDataSetProvider` is the data provider for the test projectCreationWithInvalidDataShouldFail
 5. The test case of the assignment is assignmentTestCase under `IssueCreationTests`
-6. Finally, the attachment used in the attachment upload cases is stored in test/resource/attachments
+6. Where there are multiple `assertThat()` **SoftAssertions** is used; without this, if the first assertion fails, the rest of the assertions will not be executed. With soft assertions, all of the assertions will be checked, and then an assertion exception will be thrown with details of what were the miss
+matches. (see IssueCreationTests for the usage)
+7. In `assignmentTestCase()`,  custom assertion is used since then response model is complex and would result in unreadable assertions, instead a fluent assertion is seen because of the use of custom assertion. (See `GetIssueAssert` for the implementation of custom assert)
+8. Finally, the attachment used in the attachment upload cases is stored in test/resource/attachments
 
 
 
