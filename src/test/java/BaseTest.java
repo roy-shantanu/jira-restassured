@@ -3,6 +3,7 @@ import io.restassured.RestAssured;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.mapper.ObjectMapperType;
+import lombok.extern.apachecommons.CommonsLog;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.IOException;
@@ -17,12 +18,14 @@ import static io.restassured.config.LogConfig.logConfig;
  * Date: 19-Jun-20
  * Time: 8:59 PM
  */
+@CommonsLog
 public class BaseTest {
-
     private static final String APPLICATION_PROPERTIES = "application.properties";
+    private Properties applicationProperties;
 
     @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() throws IOException {
+    public void beforeSuite() {
+        loadApplicationProperties();
         RestAssured.baseURI = getBaseUrl();
         RestAssured.filters(new AllureRequestResponseFilter());
         RestAssured.config = RestAssuredConfig
@@ -32,10 +35,24 @@ public class BaseTest {
                 .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false));
     }
 
-    private String getBaseUrl() throws IOException {
+    protected Properties getApplicationProperties() {
+        if (applicationProperties == null) {
+            loadApplicationProperties();
+        }
+        return applicationProperties;
+    }
+
+    private void loadApplicationProperties() {
         InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(APPLICATION_PROPERTIES);
-        Properties applicationProperties = new Properties();
-        applicationProperties.load(inputStream);
+        applicationProperties = new Properties();
+        try {
+            applicationProperties.load(inputStream);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    private String getBaseUrl() {
         return applicationProperties.getProperty("scheme") +
                 "://" +
                 applicationProperties.getProperty("host") +
