@@ -19,16 +19,14 @@ public class RequestBodyGenerator {
 
     private RequestBodyGenerator(){}
 
-    public static CreateIssueRequestBody getRandomIssueCreateBody(User user, String projectId) {
+    public static CreateIssueRequestBody.Builder getRandomIssueCreateBody(User user, String projectId) {
         return CreateIssueRequestBody.builder()
                 .summary(LoremIpsum.getInstance().getWords(5))
                 .issueType("10002")
                 .project(projectId)
                 .description(LoremIpsum.getInstance().getWords(5))
-                .reporter(user.getUsername())
                 .assignee(user.getUsername())
-                .priority("3")
-                .build();
+                .priority("3");
     }
 
     public static CreateProjectRequestBody.CreateProjectRequestBodyBuilder getCreateProjectRequestBuilderWithRandomData(User user) {
