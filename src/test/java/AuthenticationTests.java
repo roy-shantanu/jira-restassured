@@ -1,5 +1,7 @@
 import model.User;
 import model.response.AuthenticationResponse;
+import model.response.ErrorResponse;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import service.AuthenticationService;
 import service.RestService;
@@ -29,8 +31,6 @@ public class AuthenticationTests extends BaseTest {
 
         File schema = new ResourceLoader().getResource("schema/authenticate_user.json");
 
-        user.setSessionId(null);
-
         authenticationService.authenticateUser(user)
                 .then()
                 .assertThat()
@@ -39,11 +39,33 @@ public class AuthenticationTests extends BaseTest {
                 .body(matchesJsonSchema(schema));
     }
 
+    @Test(dataProvider = "invalidUserDetails")
+    public void authenticate_WithInvalidPassword_ShouldFail(User user) {
+        ErrorResponse errorResponse = authenticationService.authenticateUser(user)
+                .then()
+                .assertThat()
+                .statusCode(401)
+                .and()
+                .extract()
+                .as(ErrorResponse.class);
+
+        assertThat(errorResponse.getErrorMessages().get(0)).isEqualTo("Login failed");
+    }
+
+    @DataProvider(name = "invalidUserDetails")
+    public Object[][] invalidUserDetails() {
+        User validUser = UserProvider.getInstance().getUser("admin");
+        return new Object[][]{
+                {new User(validUser.getUsername(), "invalidPassword", null)},
+                {new User("invalidUsername", "invalidPassword", null)},
+                {new User(null, "invalidPassword", null)},
+                {new User(validUser.getUsername(), "null", null)},
+        };
+    }
+
     @Test
     public void alreadyAuthenticatedUser_ShouldGetNewSessionId_AfterReAuthentication() {
         User user = UserProvider.getInstance().getUser("admin");
-
-        user.setSessionId(null);
 
         AuthenticationResponse authenticationResponse1 = authenticationService.authenticateUser(user)
                 .then()
@@ -81,8 +103,6 @@ public class AuthenticationTests extends BaseTest {
     public void newAuthenticatedSession_ShouldNotExpireOldSessions() {
         User user = UserProvider.getInstance().getUser("admin");
 
-        user.setSessionId(null);
-
         AuthenticationResponse authenticationResponse1 = authenticationService.authenticateUser(user)
                 .then()
                 .assertThat()
@@ -107,9 +127,6 @@ public class AuthenticationTests extends BaseTest {
     public void userShouldNotBeAbleToUse_OtherUsersSessionId() {
         User admin1 = UserProvider.getInstance().getUser("admin");
         User admin2 = UserProvider.getInstance().getUser("admin2");
-
-        admin1.setSessionId(null);
-        admin2.setSessionId(null);
 
         AuthenticationResponse authenticationResponse2 = authenticationService.authenticateUser(admin2)
                 .then()
