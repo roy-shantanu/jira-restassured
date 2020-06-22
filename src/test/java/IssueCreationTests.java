@@ -5,6 +5,7 @@ import model.response.*;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
 import service.RestService;
+import service.Services;
 import utils.ResourceLoader;
 import utils.UserProvider;
 
@@ -23,7 +24,7 @@ import static utils.RequestBodyGenerator.getRandomIssueCreateBody;
  */
 public class IssueCreationTests extends BaseTest {
 
-    private RestService restService = new RestService();
+    private RestService restService = Services.getRestService();
     private final String defaultProjectId = getApplicationProperties().getProperty("default.project.id");
 
     @Test(groups = "schema")
@@ -90,9 +91,21 @@ public class IssueCreationTests extends BaseTest {
                 .extract()
                 .as(CreateIssueResponse.class);
 
-        restService.deleteIssue(user, createIssueResponse.getId())
+        restService.getIssue(user, createIssueResponse.getKey())
+                .then()
+                .statusCode(200);
+
+        restService.deleteIssue(user, createIssueResponse.getKey())
                 .then()
                 .statusCode(204);
+
+        ErrorResponse errorResponse = restService.getIssue(user, createIssueResponse.getKey())
+                .then()
+                .statusCode(404)
+                .extract()
+                .as(ErrorResponse.class);
+
+        assertThat(errorResponse.getErrorMessages().get(0)).isEqualTo("Issue Does Not Exist");
     }
 
     @Test(groups = "schema")
@@ -115,7 +128,7 @@ public class IssueCreationTests extends BaseTest {
     }
 
     @Test(groups = "schema")
-    public void getAllIssuesSchema_ShouldMatch() {
+    public void getAllIssuesByProjectSchema_ShouldMatch() {
         User user = UserProvider.getInstance().getAuthenticatedUser("admin");
         File schema = new ResourceLoader().getResource("schema/get_all_issues.json");
 
@@ -197,7 +210,7 @@ public class IssueCreationTests extends BaseTest {
                 .extract()
                 .as(CreateIssueResponse.class);
 
-        ErrorResponse errorResponse = restService.deleteIssue(nonAdminUser, createIssueResponse.getId())
+        ErrorResponse errorResponse = restService.deleteIssue(nonAdminUser, createIssueResponse.getKey())
                 .then()
                 .statusCode(403)
                 .and()
@@ -209,7 +222,7 @@ public class IssueCreationTests extends BaseTest {
     }
 
     @Test
-    public void assignmentTestCase() {
+    public void userFullFlowTestCase() {
         //the admin user logs in to the application
         User user = UserProvider.getInstance().getAuthenticatedUser("admin");
 
@@ -240,16 +253,16 @@ public class IssueCreationTests extends BaseTest {
                 .statusCode(200);
 
         //creating another issue
-        String issueTwoId = restService
+        String issueTwoKey = restService
                 .createIssue(user, getRandomIssueCreateBody(user, Integer.toString(createProjectResponse.getId())).build())
                 .then()
                 .statusCode(201)
                 .extract()
                 .as(CreateIssueResponse.class)
-                .getId();
+                .getKey();
 
         //deleting second issue
-        restService.deleteIssue(user, issueTwoId)
+        restService.deleteIssue(user, issueTwoKey)
                 .then()
                 .statusCode(204);
 

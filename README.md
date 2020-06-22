@@ -15,12 +15,16 @@ Libraries used:
 
 How to navigate through the code:
 1. build.gradle -> dependencies, configs and logic for suite resolution
-2. main/java/service -> api representations for auth service and the core rest Api of Jira. The service extends base service, which resolves api version and the service path from the two template methods.
+2. main/java/service -> 
+    1. api representations for auth service and the core rest Api of Jira. The service extends base service, which resolves api version and the service path from the two template methods.
+    2. Services - single point of access for all the services. because we designed the Services to be accessed through this single point of entry, we can refactor it to return V3 implementation of the api (in future) / proxy and the test code will not have to be modified.
+    3. "RestService" interface, its proxy and the impl - the "Services" returns the "Proxy" implementation of rest service, the proxy delegates the calls to the RestServiceImpl. It is designed this way so that we can add some cross cutting concerns like test data cleaner. Any code can now be executed before or after the call in the proxy, keeping the actual test code unaware of it (its not the test's concern) and the code clean.
 3. main/java/model -> contains all the request / response and the data objects concerning the APIs
 4. main/java/utils -> contains some handy utility classes
     1. Resource loader - used for loading attachment files, response schemas (any resource files can be loaded)
     2. Request body generator - this generates random request bodies of some cumbersome body params. This returns a builder, so that the request body can be further fine tuned before building. (ex. usage: see invalidDataSetProvider in project creation test)
     3. User provider - loads all tes users that are stored in resources/users.json file, it then can filter and return a particular user when queried, also can make sure the user is authenticated before returning. (UserProvider is made a singleton)
+    4. ProjectCleanupHelper -> This keeps track of what projects has been created, so that at @AfterMethod on BaseTest can cleanup (call delete project) if required after each test execution. The "addProjectForCleanUp" is called in the rest service proxy, after the project creation call, and if the call is successful. Thus the key is add to list for cleanup. if in the same test case, deletes the issue, "projectDeleted" is called in the delete project call in the proxy, to mark the issue as already deleted. The Map store is threadlocal so that each thread (for parallel run) can have its own list, and doesn't clear the list of other thread after deletion is complete.
     
 5.main/java/allure -> this extends the core allure reporting framework and the there is also a custom request response filter. 
     

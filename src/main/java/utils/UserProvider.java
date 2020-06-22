@@ -7,6 +7,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import model.User;
 import model.response.AuthenticationResponse;
 import service.AuthenticationService;
+import service.Services;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.util.Objects;
 public class UserProvider {
 
     private static final UserProvider instance = new UserProvider();
-    private AuthenticationService authenticationService = new AuthenticationService();
+    private AuthenticationService authenticationService = Services.getAuthService();
     private Map<String, User> users;
 
     private UserProvider() {

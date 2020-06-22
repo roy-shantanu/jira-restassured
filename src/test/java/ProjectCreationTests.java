@@ -7,6 +7,7 @@ import model.response.ErrorResponse;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import service.RestService;
+import service.Services;
 import utils.ResourceLoader;
 import utils.UserProvider;
 
@@ -24,7 +25,7 @@ import static utils.RequestBodyGenerator.getCreateProjectRequestBuilderWithRando
  */
 public class ProjectCreationTests extends BaseTest {
 
-    private RestService restService = new RestService();
+    private RestService restService = Services.getRestService();
 
     @Test(groups = "schema")
     public void createProjectSchema_ShouldMatch() {
@@ -80,7 +81,7 @@ public class ProjectCreationTests extends BaseTest {
                 .extract()
                 .as(CreateProjectResponse.class);
 
-        restService.deleteProject(user, Integer.toString(response.getId()))
+        restService.deleteProject(user, response.getKey())
                 .then()
                 .assertThat()
                 .statusCode(204);
@@ -101,7 +102,7 @@ public class ProjectCreationTests extends BaseTest {
 
         User adminB = UserProvider.getInstance().getAuthenticatedUser("admin2");
 
-        restService.deleteProject(adminB, Integer.toString(response.getId()))
+        restService.deleteProject(adminB, response.getKey())
                 .then()
                 .assertThat()
                 .statusCode(204);
@@ -176,5 +177,4 @@ public class ProjectCreationTests extends BaseTest {
                 }
         };
     }
-
 }

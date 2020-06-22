@@ -4,7 +4,10 @@ import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.mapper.ObjectMapperType;
 import lombok.extern.apachecommons.CommonsLog;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import utils.ProjectCleanupHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +36,16 @@ public class BaseTest {
                 .logConfig(logConfig().enableLoggingOfRequestAndResponseIfValidationFails())
                 .objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.GSON))
                 .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false));
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod() {
+        ProjectCleanupHelper.getInstance().removeProjects();
+    }
+
+    @AfterSuite
+    public void afterSuite() {
+        ProjectCleanupHelper.getInstance().closeStore();
     }
 
     protected Properties getApplicationProperties() {

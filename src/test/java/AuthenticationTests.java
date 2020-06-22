@@ -5,6 +5,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import service.AuthenticationService;
 import service.RestService;
+import service.Services;
 import utils.ResourceLoader;
 import utils.UserProvider;
 
@@ -22,8 +23,8 @@ import static utils.RequestBodyGenerator.getCreateProjectRequestBuilderWithRando
  */
 public class AuthenticationTests extends BaseTest {
 
-    private AuthenticationService authenticationService = new AuthenticationService();
-    private RestService restService = new RestService();
+    private AuthenticationService authenticationService = Services.getAuthService();
+    private RestService restService = Services.getRestService();
 
     @Test(groups = "schema")
     public void authenticateUser_SchemaShouldMatch() {
