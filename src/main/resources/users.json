@@ -1,82 +1,18 @@
 {
-  "admin1": {
-    "username" : "admin1",
-    "password" : "admin1"
+  "admin": {
+    "username": "admin",
+    "password": "admin"
   },
   "admin2": {
-    "username" : "admin2",
-    "password" : "admin2"
-  },,
-  "admin3": {
-    "username" : "admin3",
-    "password" : "admin3"
-  },,
-  "admin4": {
-    "username" : "admin4",
-    "password" : "admin4"
-  },,
-  "admin5": {
-    "username" : "admin5",
-    "password" : "admin5"
-  },,
-  "admin6": {
-    "username" : "admin6",
-    "password" : "admin6"
-  },,
-  "admin7": {
-    "username" : "admin7",
-    "password" : "admin7"
-  },,
-  "admin8": {
-    "username" : "admin8",
-    "password" : "admin8"
+    "username": "admin2",
+    "password": "admin2"
   },
-  "admin9": {
-    "username" : "admin9",
-    "password" : "admin9"
-  },
-  "admin10": {
-    "username" : "admin10",
-    "password" : "admin10"
-  },
-  "nonAdmin1": {
-    "username" : "nonAdmin1",
-    "password" : "nonAdmin1"
+  "nonAdmin": {
+    "username": "nonAdmin",
+    "password": "nonAdmin"
   },
   "nonAdmin2": {
-    "username" : "nonAdmin2",
-    "password" : "nonAdmin2"
-  },
-  "nonAdmin3": {
-    "username" : "nonAdmin3",
-    "password" : "nonAdmin3"
-  },
-  "nonAdmin4": {
-    "username" : "nonAdmin4",
-    "password" : "nonAdmin4"
-  },
-  "nonAdmin5": {
-    "username" : "nonAdmin5",
-    "password" : "nonAdmin5"
-  },
-  "nonAdmin6": {
-    "username" : "nonAdmin6",
-    "password" : "nonAdmin6"
-  },
-  "nonAdmin7": {
-    "username" : "nonAdmin7",
-    "password" : "nonAdmin7"
-  },
-  "nonAdmin8": {
-    "username" : "nonAdmin8",
-    "password" : "nonAdmin8"
-  },
-  "nonAdmin9": {
-    "username" : "nonAdmin9",
-    "password" : "nonAdmin9"
-  },
-  "nonAdmin10": {
-    "username" : "nonAdmin10",
-    "password" : "nonAdmin10"
+    "username": "nonAdmin2",
+    "password": "nonAdmin2"
   }
 }

@@ -52,6 +52,15 @@ public class IssueCreationTests extends BaseTest {
                 .extract()
                 .as(CreateIssueResponse.class);
 
+        GetIssueResponse issueBefore = restService.getIssue(user, createIssueResponse.getId())
+                .then()
+                .statusCode(200)
+                .extract()
+
+                .as(GetIssueResponse.class);
+
+        assertThat(issueBefore.getFields().getAttachment().size()).isEqualTo(0);
+
         File attachment = new ResourceLoader().getResource("attachments/testAttachment.jpg");
 
         restService.addAttachmentToIssue(user, createIssueResponse.getId(), attachment)
@@ -60,6 +69,14 @@ public class IssueCreationTests extends BaseTest {
                 .statusCode(200)
                 .and()
                 .body(matchesJsonSchema(schema));
+
+        GetIssueResponse issueAfter = restService.getIssue(user, createIssueResponse.getId())
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(GetIssueResponse.class);
+
+        assertThat(issueAfter.getFields().getAttachment().size()).isEqualTo(1);
     }
 
     @Test

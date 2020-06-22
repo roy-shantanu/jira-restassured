@@ -35,9 +35,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "failedLoginCount",
         "loginCount",
-        "lastFailedLoginTime",
         "previousLoginTime"
       ]
     }

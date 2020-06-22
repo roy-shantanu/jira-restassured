@@ -3,7 +3,7 @@
 Notes:
 1. The server version of jira that has been used supports up to API version 2.
 2. A default project is created named "default", and key = "DEF"
-3. Default users are created with naming convention "admin1" and "nonAdmin1" and so on (10 of each)
+3. Default users are created with naming convention "admin" and "nonAdmin"
 
 Libraries used:
 1. **Lombok** (reduce boilerplate, particularly used **NOT** to write getters, setters, constructors, builders and so on) - this is one of my favourite libraries. :heart_eyes:

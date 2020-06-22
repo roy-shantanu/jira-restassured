@@ -138,10 +138,18 @@ public class AuthenticationTests extends BaseTest {
 
         admin1.setSessionId(authenticationResponse2.getSession().getValue());
 
-        restService.createProject(admin1, getCreateProjectRequestBuilderWithRandomData(admin1).build())
-                .then()
-                .assertThat()
-                .statusCode(401);
+        try {
+            restService.createProject(admin1, getCreateProjectRequestBuilderWithRandomData(admin1).build())
+                    .then()
+                    .assertThat()
+                    .statusCode(401);
+        } finally {
+            /*
+            So that other tests don't get the wrong session. It should run, even if the
+            request fails and throws an assertion error.
+            */
+            admin1.setSessionId(null);
+        }
     }
 
     @Test

@@ -17,7 +17,8 @@ import static model.ProjectType.SOFTWARE;
  */
 public class RequestBodyGenerator {
 
-    private RequestBodyGenerator(){}
+    private RequestBodyGenerator() {
+    }
 
     public static CreateIssueRequestBody.Builder getRandomIssueCreateBody(User user, String projectId) {
         return CreateIssueRequestBody.builder()
@@ -31,8 +32,9 @@ public class RequestBodyGenerator {
 
     public static CreateProjectRequestBody.CreateProjectRequestBodyBuilder getCreateProjectRequestBuilderWithRandomData(User user) {
         Lorem lorem = LoremIpsum.getInstance();
+        String key = lorem.getWords(1).toUpperCase();
         return CreateProjectRequestBody.builder()
-                .key(lorem.getWords(1).toUpperCase())
+                .key(key.length() > 10 ? key.substring(0, 9) : key)
                 .name(lorem.getWords(1).toUpperCase())
                 .projectTypeKey(SOFTWARE.getProjectTypeKey())
                 .projectTemplateKey(SOFTWARE_SCRUM.getProjectTemplateKey())
