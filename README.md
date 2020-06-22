@@ -59,7 +59,7 @@ test/java::
         3. if any new param is added
         4. if any param is missing
         
-3. Schema tests has its own suite defined in the `@Test` annotation, these tests can be selected by passing run argument -Psuites=schema
+3. Schema tests has its own suite defined in the `@Test` annotation, these tests can be selected by passing run argument "-Psuites=schema"
     1. See build.gradle where the argument is queried and test suite xml file is selected
     2. see test/resource/suites where the suits are defined
     
@@ -67,7 +67,7 @@ test/java::
 5. The test case of the assignment is assignmentTestCase under `IssueCreationTests`
 6. Where there are multiple `assertThat()` **SoftAssertions** is used; without this, if the first assertion fails, the rest of the assertions will not be executed. With soft assertions, all of the assertions will be checked, and then an assertion exception will be thrown with details of what were the miss
 matches. (see IssueCreationTests for the usage)
-7. In `assignmentTestCase()`,  custom assertion is used since then response model is complex and would result in unreadable assertions, instead a fluent assertion is seen because of the use of custom assertion. (See `GetIssueAssert` for the implementation of custom assert)
+7. In `userFullFlowTestCase()`,  custom assertion is used since then response model is complex and would result in unreadable assertions, instead a fluent assertion is seen because of the use of custom assertion. (See `GetIssueAssert` for the implementation of custom assert)
 8. Finally, the attachment used in the attachment upload cases is stored in test/resource/attachments
 
 
