@@ -40,7 +40,9 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod() {
-        ProjectCleanupHelper.getInstance().removeProjects();
+        if (Boolean.parseBoolean(getApplicationProperties().getProperty("enableCleanup"))) {
+            ProjectCleanupHelper.getInstance().removeProjects();
+        }
     }
 
     @AfterSuite

@@ -26,7 +26,6 @@ test {
                     .each { suite ->
                         options.suites 'src/test/resources/suites/' + suite + '-suite.xml'
                     }
-            systemProperties.put("suites", project.property('suites'))
         }
     }
 }
