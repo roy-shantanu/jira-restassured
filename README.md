@@ -14,6 +14,8 @@ Libraries used:
 6. **Allure** for reporting
 
 How to navigate through the code:
+
+main/java::
 1. build.gradle -> dependencies, configs and logic for suite resolution
 2. main/java/service -> 
     1. api representations for auth service and the core rest Api of Jira. The service extends base service, which resolves api version and the service path from the two template methods.
