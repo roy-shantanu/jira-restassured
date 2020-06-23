@@ -41,7 +41,7 @@ How to navigate through the code:
 
 test/java::
 1. BaseTest -> 
-    1. loads the application.properties file (see test/resources), this file contains the base properties of the application, e.g base url constructs, default project params.
+    1. loads the application.properties file (see test/resources), this file contains the base properties of the application, e.g base url constructs, default project params. This also has a switch "enableCleanup", if this is enabled, the script will automatically cleanup any projects created. If set to false, the projects created during the test will remain.
     2. Builds the base url from properties defined in application.properties file.
     3. makes the properties available through getApplicationProperties (this is used to retrieve the default project id)
     4. configures RA with:
